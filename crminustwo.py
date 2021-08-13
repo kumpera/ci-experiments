@@ -269,6 +269,7 @@ class CrMinusTwo:
                                     'qfunc': lambda c, w, r, k=kappa, g=gamma, b=beta, s=sign, num=n: -c * (g + (b + s * r) * w) / ((num + 1) * k),
                                 }))
 
+            print(candidates)
             best = min(candidates, key=lambda x: x[0])
             vbound = min(rmax, max(rmin, sign*best[0]))
             bounds.append((vbound, best[1]))

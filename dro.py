@@ -36,11 +36,13 @@ class OnlineDRO:
                             )
                         z = phi + 1 / (2 * n)
                         if isclose(y*z, 0, abs_tol=1e-9):
+                            # print('first is close')
                             y = 0
 
                         if z <= 0 and y * z >= 0:
                             kappa = sqrt(y / (2 * z))
                             if isclose(kappa, 0):
+                                # print('first add none')
                                 candidates.append((sign * r, None))
                             else:
                                 gstar = x - sqrt(2 * y * z)
@@ -68,11 +70,15 @@ class OnlineDRO:
                             z = phi + (1/2) * (1 - barw)**2 / (barwsq - barw**2)
                             
                             if isclose(y*z, 0, abs_tol=1e-9):
+                                y1 = (barwsqr - barw * barwr)**2 / (barwsq - barw**2)
+                                y2 = (barwsqrsq - barwr**2)
+                                # print(f'second is close y:{y} z:{z} y1:{y1} y2:{y2}')
                                 y = 0
 
                             if z <= 0 and y * z >= 0:
                                 kappa = sqrt(y / (2 * z)) if y * z > 0 else 0
                                 if isclose(kappa, 0):
+                                    # print('second add none')
                                     candidates.append((sign * r, None))
                                 else:
                                     gstar = x - sqrt(2 * y * z)
@@ -88,7 +94,9 @@ class OnlineDRO:
                                         'qfunc': lambda c, w, r, k=kappa, g=gamma, b=beta, s=sign, num=n: -c * (g + (b + s * r) * w) / ((num + 1) * k),
                                     }))
 
+                # print(candidates)
                 best = min(candidates, key=lambda x: x[0])
+                # print(f'rmax:{rmax} rmin:{rmin} alt:{sign*best[0]}')
                 vbound = min(rmax, max(rmin, sign*best[0]))
                 bounds.append((vbound, best[1]))
 
